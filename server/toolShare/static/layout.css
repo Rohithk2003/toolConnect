@@ -1,0 +1,159 @@
+a {
+	color: white;
+	text-decoration: none;
+}
+.btn-success {
+	width: 90px;
+}
+.test {
+	display: none;
+}
+.btn-success:hover + .test {
+	display: block;
+}
+#itemImage:hover {
+	cursor: pointer;
+}
+hr {
+	margin-bottom: 0px;
+}
+.items-container {
+	width: auto;
+}
+.sellItem,
+.deleteItem {
+	background-color: white;
+	border: none;
+}
+
+.filters {
+	float: left;
+	width: 15%;
+	padding-top: 0;
+	border-right: 1px solid #edebef;
+	height: 100vh;
+}
+.items {
+	float: left;
+	width: 85%;
+	height: 100vh;
+}
+.profile_details_div {
+	display: none;
+	width: 100px;
+	float: right;
+	margin-top: -50px;
+	height: 100px;
+}
+#profileIcon:hover + .profile_details_div {
+	display: none;
+}
+
+#itemContainer {
+	display: flex;
+	margin-top: 10px;
+}
+.createListing {
+	height: 400px;
+}
+tr {
+	text-align: left;
+}
+#tdData {
+	display: flex;
+	padding-left: 10px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 170px !important;
+	white-space: nowrap;
+}
+
+.loginContainer,
+.registerContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px 20px 20px 20px;
+	height: 80vh;
+}
+.loginInsideContainer {
+	border: 1px solid black;
+}
+.loginInsideContainer > * {
+	margin: 80px;
+}
+#registerText {
+	margin-top: 20px;
+	margin-bottom: -40px;
+	text-align: center;
+	font-size: 30px;
+	font-family: "Open Sans", Sans-serif;
+}
+
+#catogories_heading {
+	margin-left: 25px;
+	font-weight: bold;
+	font-family: Montserrat;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-top: 10px;
+	margin-bottom: 3px;
+}
+
+.form-check {
+	margin-left: 25px;
+}
+
+hr {
+	border: 0.1px solid #edebef;
+}
+
+.form-check-label {
+	font-family: Lato, Arial, sans-serif;
+}
+#valueLabel {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+#orders-view {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@media screen and (max-width-755px) {
+	#listing_img {
+		width: 2000px;
+	}
+	body {
+		background-color: black;
+	}
+}
+#listing_description {
+	overflow: auto;
+
+	height: 200px;
+	width: 300px;
+	word-wrap: break-word;
+}
+.listingDiv {
+	margin-top: 40px;
+	height: 105vh !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.createListing {
+	padding: 20px;
+	height: 100%;
+	border-radius: 10px 10px 10px 10px;
+}
+#totalPrice {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#redirectBtn {
+	display: none;
+}
