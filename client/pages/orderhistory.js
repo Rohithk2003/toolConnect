@@ -99,7 +99,7 @@ export default function OrderPage() {
                 </tr>
               </thead>
               <tbody>
-                {data === [] &&
+                {data !== [] &&
                   data.map((order) => {
                     if (order !== null && order !== undefined)
                       return (

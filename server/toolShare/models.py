@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from rest_framework import serializers
 
 
 # Create your models here.
@@ -52,10 +53,9 @@ class Item(models.Model):
         to=Category, on_delete=models.CASCADE, related_name="itemCategory"
     )
     seller = models.ForeignKey(
-        to=customUser, on_delete=models.CASCADE, related_name="sellerr"
+        to=customUser, on_delete=models.CASCADE, related_name="seller"
     )
     max_no_of_days = models.IntegerField()
-    img = models.CharField(max_length=500)
     createdTime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -71,9 +71,13 @@ class Item(models.Model):
             "category": self.category.category,
             "address": self.seller.address,
             "max_no_of_days": self.max_no_of_days,
-            "img": self.img,
             "createdTime": self.createdTime,
         }
+
+
+class Image(models.Model):
+    img = models.ImageField(upload_to="images/")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
 class Order(models.Model):

@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <>
       <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 " />
-      <footer className="p-4 bg-white sm:p-6 dark:bg-black  bottom-0 w-full">
+      <footer className="p-4 bg-white sm:p-6 dark:bg-black  bottom-0 w-full   ">
         <div className="mx-auto max-w-screen-xl">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -81,7 +81,7 @@ export default function Footer() {
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-              © 2022{" "}
+              © 2023{" "}
               <Link href="/" className="hover:text-white ">
                 ToolConnect™
               </Link>

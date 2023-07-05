@@ -5,18 +5,16 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .models import *
-from django.db.models import Max, Min
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from datetime import date
-from datetime import datetime
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_protect
+from django.core import serializers
 
 
 def index(request):
-    if request.user.is_authenticated:
-        user = customUser.objects.filter(user=request.user).first().type
+    # if request.user.is_authenticated:
+    #     user = customUser.objects.filter(user=request.user).first().type
     return JsonResponse(
         {
             "categories": [category.category for category in Category.objects.all()],
@@ -34,7 +32,21 @@ def get_all_ids(request):
 def get_main_page_items(request):
     itemobjects = Item.objects.filter(availability=True).order_by("-max_no_of_days")[:3]
     items = [item.serialize() for item in itemobjects]
-    return JsonResponse(items, safe=False)
+
+    return JsonResponse(
+        {
+            "items": items,
+            "images": serializers.serialize(
+                "json",
+                Image.objects.filter(
+                    item__in=Item.objects.filter(availability=True).order_by(
+                        "-max_no_of_days"
+                    )[:3]
+                ).order_by("-item__max_no_of_days")[:3],
+            ),
+        },
+        safe=False,
+    )
 
 
 def check_wishlist_view(request, item_id):
@@ -86,20 +98,21 @@ def additemtowishlist(request, item_id):
 def add_item_view(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            data = json.loads(request.body)
-            item_name = data.get("item_name")
-            category = Category.objects.filter(category=data.get("category")).first()
-            max_no_of_days = data.get("noofdays")
-            description = data.get("item_description")
-            imageUrl = data.get("img")
-            Item.objects.create(
+            print(request.POST, request.FILES)
+            item_name = request.POST["item_name"]
+            category = Category.objects.filter(
+                category=request.POST["item_category"]
+            ).first()
+            max_no_of_days = request.POST["item_noofdays"]
+            description = request.POST["item_description"]
+            item = Item.objects.create(
                 item_name=item_name,
                 category=category,
                 seller=customUser.objects.filter(user=request.user).first(),
                 max_no_of_days=max_no_of_days,
                 description=description,
-                img=imageUrl,
             )
+            Image.objects.create(img=request.FILES.get("image"), item=item)
             return JsonResponse(
                 {
                     "message": "Item has been added",
@@ -118,15 +131,21 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({"Status": "1", "usertype": customUser.objects.filter(user=user).first().type.type},
-                                status=200)
+            return JsonResponse(
+                {
+                    "Status": "1",
+                    "usertype": customUser.objects.filter(user=user).first().type.type,
+                },
+                status=200,
+            )
         else:
             return JsonResponse({"Status": "0"}, status=400)
 
 
 def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    if request.user.is_authenticated:
+        logout(request)
+        return JsonResponse({"message": "Success"}, safe="False")
 
 
 @csrf_protect
@@ -162,58 +181,46 @@ def register_view(request):
 
 def get_onsale_items(request):
     if request.method == "GET" and request.user.is_authenticated:
-        onsale = Item.objects.filter(seller=customUser.objects.filter(user=request.user).first())
+        onsale = Item.objects.filter(
+            seller=customUser.objects.filter(user=request.user).first()
+        )
         items = []
         todayDate = date.today()
         for item in onsale:
             temp = item.serialize()
-            temp["max_no_of_days"] = temp["max_no_of_days"] - (temp["createdTime"].date() - todayDate).days
+            temp["max_no_of_days"] = (
+                    temp["max_no_of_days"] - (temp["createdTime"].date() - todayDate).days
+            )
             temp[
                 "date"
             ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
 
             items.append(temp)
-        return JsonResponse(
-
-            items, safe=False
-        )
-    return JsonResponse(
-        {},
-        status=400
-    )
+        return JsonResponse(items, safe=False)
+    return JsonResponse({}, status=400)
 
 
 def check_authentication_status(request):
-    print(request, request.user)
     if request.user.is_authenticated:
         return JsonResponse(
-            {"status": request.user.is_authenticated,
-             "usertype": customUser.objects.filter(user=request.user).first().type.type,
-             "username": request.user.username}, safe=False)
+            {
+                "status": request.user.is_authenticated,
+                "usertype": customUser.objects.filter(user=request.user)
+                .first()
+                .type.type,
+                "username": request.user.username,
+            },
+            safe=False,
+        )
     else:
         return JsonResponse({"status": request.user.is_authenticated})
 
 
-def getItems(request, id="", category="", itemDataFrom=""):
+def getItems(request, id="", category=""):
     items = []
     itemObjects = Item.objects.filter(availability=True)
     if id:
         itemObjects = itemObjects.filter(item_id=id)
-    # if itemDataFrom == "onsale":
-    #     itemObjects = Item.objects.filter(
-    #         seller=customUser.objects.filter(user=request.user).first()
-    #     )
-    # elif itemDataFrom == "wishlist":
-    #     itemObjects = wishList.objects.filter(
-    #         user=customUser.objects.filter(user=request.user).first()
-    #     )
-    #     itemIds = []
-    #     for temp in itemObjects:
-    #         itemIds.append(temp.item.item_id)
-    #     itemObjects = Item.objects.filter(item_id__in=itemIds, availability=True).all()
-    # elif itemDataFrom != "none":
-    #     itemObjects = Item.objects.filter(item_name__contains=itemDataFrom).all()
-    #
     if category:
         itemObjects = itemObjects.filter(
             category=Category.objects.filter(category=category).first()
@@ -225,7 +232,14 @@ def getItems(request, id="", category="", itemDataFrom=""):
             "createdTime"
         ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
         items.append(temp)
-    return JsonResponse(items, safe=False)
+    return JsonResponse(
+        {
+            "items": items,
+            "images": serializers.serialize(
+                "json", Image.objects.filter(item__in=itemObjects)
+            ),
+        }
+    )
 
 
 @csrf_exempt
@@ -238,8 +252,10 @@ def order_item_view(request):
         item = Item.objects.filter(item_id=item_id).first()
         no_of_days = int(data.get("no_of_days"))
         order_id = hash(
-            str(item_id) + str(no_of_days) + str(
-                customUser.objects.filter(user=request.user).first().user.first_name) + str(item.seller)
+            str(item_id)
+            + str(no_of_days)
+            + str(customUser.objects.filter(user=request.user).first().user.first_name)
+            + str(item.seller)
         )
         Order.objects.create(
             order_id=order_id,
@@ -256,7 +272,12 @@ def order_item_view(request):
 
 def get_wishlist_items(request):
     if request.user.is_authenticated:
-        items = wishList.objects.filter(user=customUser.objects.filter(user=request.user).first()).all()
+        items = wishList.objects.filter(
+            user=customUser.objects.filter(user=request.user).first()
+        ).all().order_by("item_id")
+        wishlist_items = wishList.objects.filter(
+            user=customUser.objects.filter(user=request.user).first()
+        ).values("item")
         required = []
         for item in items:
             temp = item.item.serialize()
@@ -264,14 +285,24 @@ def get_wishlist_items(request):
                 "createdTime"
             ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
             required.append(temp)
-        return JsonResponse(required, safe=False)
+        return JsonResponse(
+            {
+                "items": required,
+                "images": serializers.serialize(
+                    "json", Image.objects.filter(item__in=wishlist_items).order_by("item_id")
+                ),
+            },
+            safe=False,
+        )
     return JsonResponse({}, safe=False)
 
 
 def get_sold_items(request):
     if request.user.is_authenticated:
         items = []
-        itemObjects = Item.objects.filter(seller=customUser.objects.filter(user=request.user).first())
+        itemObjects = Item.objects.filter(
+            seller=customUser.objects.filter(user=request.user).first()
+        )
 
         for item in itemObjects:
             temp = item.serialize()
@@ -301,7 +332,9 @@ def get_past_orders(request):
         todayDate = date.today()
         for item in orders:
             temp = item.serialize()
-            temp["no_of_days"] = temp["no_of_days"] - (temp["date"].date() - todayDate).days
+            temp["no_of_days"] = (
+                    temp["no_of_days"] - (temp["date"].date() - todayDate).days
+            )
             temp[
                 "date"
             ] = f'{temp["date"].strftime("%Y:%m:%d")} at {temp["date"].strftime("%H:%M:%S %p")}'
@@ -312,9 +345,7 @@ def get_past_orders(request):
             items,
             safe=False,
         )
-    return JsonResponse(
-        {}, status=400
-    )
+    return JsonResponse({}, status=400)
 
 
 def item_ordered_check(request):
@@ -323,13 +354,11 @@ def item_ordered_check(request):
         item_id = body.get("id")
         orders = Order.objects.filter(
             buyer=customUser.objects.filter(user=request.user).first(),
-            item=Item.objects.filter(item_id=item_id).first()
+            item=Item.objects.filter(item_id=item_id).first(),
         ).first()
         print(orders)
         if orders is not None:
-            return JsonResponse(
-                {"message": "present"}, status=200
-            )
+            return JsonResponse({"message": "present"}, status=200)
         else:
             return JsonResponse(
                 {"message": "not present"},
@@ -340,5 +369,12 @@ def item_ordered_check(request):
 
 def viewItem(request, item_id):
     return JsonResponse(
-        {"item": Item.objects.filter(item_id=5).first().serialize()}, status=200
+        {
+            "item": Item.objects.filter(item_id=item_id).first().serialize(),
+            "images": serializers.serialize(
+                "json",
+                Image.objects.filter(item=Item.objects.filter(item_id=item_id).first()),
+            ),
+        },
+        status=200,
     )

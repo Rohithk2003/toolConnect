@@ -4,12 +4,13 @@ import Filter from "@/components/filters";
 import Items from "@/components/Items";
 import { create, get } from "axios";
 import ItemPageLayout from "@/components/ItemPageLayout";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import ModalComponent from "@/components/modal";
 
 export default function DeleteItemPage() {
   const [data, setData] = useState(null);
   const router = useRouter();
+  const [updated,setUpdated] = useState("")
   function getData() {
     if (localStorage.getItem("status") === "true") {
       fetch("http://127.0.0.1:8000/api/onsaleitems", {
@@ -18,15 +19,14 @@ export default function DeleteItemPage() {
         .then((response) => response.json())
         .then((result) => {
           setData(result);
-          console.log(result);
         });
     } else {
       router.push("/login");
     }
   }
-  useEffect(getData, []);
+  useEffect(getData, [updated]);
   return (
-    <section className="bg-gray-50 dark:bg-black sm:p-5 z-40 h-[1000px]">
+    <section className="bg-gray-50 dark:bg-black sm:p-5 z-40 clear-both overflow-auto min-h-full h-screen">
       <div className="max-w-screen max-h-96 ">
         <div className="bg-white dark:bg-black relative dark:border shadow-md dark:border-gray-700 sm:rounded-lg overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -70,8 +70,11 @@ export default function DeleteItemPage() {
                                   "http://127.0.0.1:8000/api/delete_item/" +
                                     item.id
                                 )
-                                  .then((r) => {})
+                                  .then((r) => {
+                                    setUpdated(true)
+                                  })
                                   .then();
+                                Router.push("/seller/deleteitem")
                               }}
                               className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                             >
