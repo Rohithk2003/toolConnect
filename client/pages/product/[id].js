@@ -170,7 +170,7 @@ export default function Product({ data, relatedItems }) {
 			/>
 			<section className="text-white bg-black overflow-hidden w-screen">
 				<div className=" pb-24 pt-10">
-					<div className="text-3xl pb-8 text-start ml-36 w-full">
+					<div className="text-3xl flex flex-wrap justify-center items-center pb-8 text-start  w-[100px] lg:w-[400px]">
 						{data["items"][0].item_name}
 					</div>
 					<div className="grid lg:w-full  lg:grid-cols-2 md:grid-cols-1">
@@ -185,50 +185,50 @@ export default function Product({ data, relatedItems }) {
 								}`}
 							/>
 						</div>
-						<div className="flex justify-start align-middle">
-							<div className="w-[630px] lg:pr-7 lg:pt-7 lg:pb-7 mt-6 lg:mt-0">
+						<div className="flex w-full p-6 justify-start align-middle flex-wrap">
+							<div className="w-full lg:pr-7 lg:pt-7 lg:pb-7 mt-6 lg:mt-0">
 								<h1 className="text-white text-3xl title-font font-medium mb-1">
 									{data["items"][0].item_name}
 								</h1>
 								<p className="leading-relaxed overflow-auto">
 									{data["items"][0].description}
 								</p>
-								<div className="flex mt-6 items-center mb-2">
+								<div className="flex mt-6 flex-wrap items-center mb-2">
 									<div className="flex flex-row">
 										<span className="mr-3">
 											Category : {data["items"][0].category}
 										</span>
 									</div>
 								</div>
-								<div className="grid grid-cols-2 mt-6 w-full items-center pb-2">
+								<div className="grid grid-cols-1 grid-rows-2 lg:grid-cols-2 mt-6 w-full items-center pb-2">
 									<div className="flex flex-row">
 										<span className="mr-3">
 											Seller : {data["items"][0].seller}
 										</span>
 									</div>
 
-									<div className="flex justify-end  text-end w-64">
+									<div className="flex justify-start  text-end w-auto">
 										<span className="mr-3">Max Rent Days Allowed :</span>
-										<div className="relative ">
+										<div >
 											<div>{data["items"][0].max_no_of_days}</div>
 										</div>
 									</div>
 								</div>
-								<div className="flex mt-6 w-full  pb-5 border-b-2 border-gray-800 mb-5">
-									<div className="flex w-2/3 flex-row overflow-ellipsis  whitespace-nowrap">
+								<div className="flex mt-6 w-full flex-wrap  pb-5 border-b-2 border-gray-800 mb-5">
+									<div className="flex w-auto flex-row overflow-ellipsis  whitespace-nowrap">
 										<span className="mr-3 ">
 											Address : {data["items"][0].address}
 										</span>
 									</div>
 
-									<div className="flex text-start flex-row w-2/3 ml-24 ">
-										<span className="mr-3 w-1/2">Listed at :</span>
-										<div className="relative text-end">
+									<div className="flex  flex-wrap text-start  flex-row w-auto  ">
+										<span className="mr-3 ">Listed at :</span>
+										<div className="relative text-end ">
 											<div>{data["items"][0].createdTime}</div>
 										</div>
 									</div>
 								</div>
-								<div className="grid lg:grid-cols-2 md:w-full sm:grid-cols-1 w-1/2  sm:grid-rows-2 lg:grid-rows-1">
+								<div className="flex flex-wrap  w-auto  justify-between">
 									<div className="ml-5 md:ml-0 flex justify-center lg:justify-start ">
 										<span className="mr-3 mt-2">Days:</span>
 										<div className="relative">
@@ -293,8 +293,7 @@ export default function Product({ data, relatedItems }) {
 						</div>
 					</div>
 				</div>
-
-				<div className="w-full h-auto p-32 pt-0  bg-black text-white ">
+				<div className="w-full h-max p-10  bg-black text-white ">
 					<div className="text-2xl">Related Items</div>
 					<div className="grid gap-5 lg:grid-cols-4 md:grid-cols-2 sm-grid-cols-1 grid-rows-1">
 						{relatedItems["items"].map((item, index) => {
