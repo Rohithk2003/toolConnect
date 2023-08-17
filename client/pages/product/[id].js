@@ -220,7 +220,6 @@ export default function Product({ data, relatedItems }) {
 											Address : {data["items"][0].address}
 										</span>
 									</div>
-
 									<div className="flex  flex-wrap text-start  flex-row w-auto  ">
 										<span className="mr-3 ">Listed at :</span>
 										<div className="relative text-end ">
