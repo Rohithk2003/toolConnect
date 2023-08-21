@@ -1,5 +1,3 @@
-import Layout from "@/components/Layout";
-
 export function MainPage({repo}) {
     console.log(JSON.parse(repo["images"]))
     return (
@@ -8,7 +6,7 @@ export function MainPage({repo}) {
                 <div className="flex w-full  z-0 h-full">
                     <div className="z-0 w-1/2 h-full bg-[#9300CC]">
                         <a href={repo["items"][0] && `http://localhost:3000/product/${repo["items"][0].id}`}>
-                            <div className=" absolute left-0 z-10 top-[-2px] w-3/4 text-black dark:text-white">
+                            <div className=" absolute left-0 z-10 top-[-2px] w-max text-black dark:text-white">
                                 <h3
                                     data-testid="product-name"
                                     className="inline bg-white  z-0 relative box-decoration-clone pb-4 py-3 pl-5 font-semibold leading-loose shadow-[1.25rem_0_0] shadow-white dark:bg-black dark:shadow-black text-3xl"
@@ -28,7 +26,7 @@ export function MainPage({repo}) {
                     <div className="grid grid-cols-1 h-full w-1/2 grid-rows-2">
                         <div className="w-full h-full bg-[#171717]">
                             <a href={repo["items"][1] && `http://localhost:3000/product/${repo["items"][1].id}`}>
-                                <div className="absolute w-3/4 z-10 text-black dark:text-white">
+                                <div className="absolute w-max z-10 text-black dark:text-white">
                                     <h3
                                         data-product-name="product-name"
                                         className="inline bg-white box-decoration-clone pb-4 py-3 pl-5 font-semibold leading-loose shadow-[1.25rem_0_0] shadow-white dark:bg-black dark:shadow-black text-3xl"
@@ -51,7 +49,7 @@ export function MainPage({repo}) {
                         </div>
                         <div className="w-full h-full bg-white">
                             <a href={repo["items"][2] && `http://localhost:3000/product/${repo["items"][2].id}`}>
-                                <div className="absolute w-3/4 z-10  text-black dark:text-white">
+                                <div className="absolute w-max z-10  text-black dark:text-white">
                                     <h3
                                         data-testid="product-name"
                                         className="inline bg-white box-decoration-clone pb-4 py-3 pl-5 font-semibold leading-loose shadow-[1.25rem_0_0] shadow-white dark:bg-black dark:shadow-black text-3xl"
