@@ -5,7 +5,7 @@ export default function RenderInfo({ headingText, text }) {
   return (
     <>
       <main>
-        <div className="text-white bg-black h-[600px]">
+        <div className="text-white bg-black mb-auto h-max">
           <div className="mx-8 max-w-2xl py-44 sm:mx-auto">
             <h1 className="text-white font-[Inter] font-bold text-5xl mb-5">
               {headingText}

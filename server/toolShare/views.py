@@ -10,6 +10,7 @@ from datetime import date
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_protect
 from django.core import serializers
+from django.http.multipartparser import MultiPartParser
 
 
 def index(request):
@@ -98,7 +99,6 @@ def additemtowishlist(request, item_id):
 def add_item_view(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            print(request.POST, request.FILES)
             item_name = request.POST["item_name"]
             category = Category.objects.filter(
                 category=request.POST["item_category"]
@@ -122,6 +122,34 @@ def add_item_view(request):
             )
 
 
+@csrf_exempt
+def update_item(request,item_id):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            item_name = request.POST["item_name"]
+            category = Category.objects.filter(
+                category=request.POST["item_category"]
+            ).first()
+            max_no_of_days = request.POST["item_noofdays"]
+            description = request.POST["item_description"]
+            citem = Item.objects.filter(item_id=item_id).first()
+            image = Image.objects.filter(item=citem).first()
+            image_data = request.FILES.get("image")
+            if image_data:
+                image.img = image_data
+            citem.item_name = item_name
+            citem.category = category
+            citem.max_no_of_days = max_no_of_days
+            citem.description = description
+            image.save()
+            citem.save()
+            return JsonResponse(
+                {
+                    "message": "Item has been added",
+                    "heading": "Success",
+                },
+                status=200,
+            )
 @csrf_protect
 def login_view(request):
     if request.method == "POST":

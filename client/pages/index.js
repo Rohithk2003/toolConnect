@@ -3,7 +3,7 @@ export function MainPage({repo}) {
     return (
         <>
             <div className="w-full z-0 relative  h-screen">
-                <div className="flex w-full  z-0 h-full">
+                <div className="flex w-full flex-wrap flex-row flex-grow z-0 h-full">
                     <div className="z-0 w-1/2 h-full bg-[#9300CC]">
                         <a href={repo["items"][0] && `http://localhost:3000/product/${repo["items"][0].id}`}>
                             <div className=" absolute left-0 z-10 top-[-2px] w-max text-black dark:text-white">
@@ -18,13 +18,14 @@ export function MainPage({repo}) {
                                 </p>
                             </div>
                             <img
-                                src={repo["items"][0] ?  `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[0]["fields"]["img"]}` : "none"}                                alt="none"
+                                src={repo["items"][0] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[0]["fields"]["img"]}` : "none"}
+                                alt="none"
                                 className=" bg-transparent relative object-contain  h-full bg-opacity-0 bg-purple-600 w-full z-0 transition duration-300 "
                             />
                         </a>
                     </div>
-                    <div className="grid grid-cols-1 h-full w-1/2 grid-rows-2">
-                        <div className="w-full h-full bg-[#171717]">
+                    <div className="flex flex-col h-full w-1/2 flex-wrap">
+                        <div className="w-full h-1/2 bg-[#171717]">
                             <a href={repo["items"][1] && `http://localhost:3000/product/${repo["items"][1].id}`}>
                                 <div className="absolute w-max z-10 text-black dark:text-white">
                                     <h3
@@ -38,16 +39,16 @@ export function MainPage({repo}) {
                                     </p>
                                 </div>
                                 <img
-                                    src={repo["items"][0] ?  `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[1]["fields"]["img"]}` : "none"}                                alt="none"
+                                    src={repo["items"][0] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[1]["fields"]["img"]}` : "none"}
                                     alt="none"
                                     width="540"
                                     height="540"
-                                    fetchpriority="high"
+                                    fetchPriority="high"
                                     className="relative h-full object-contain bg-opacity-100 w-full z-0 transition duration-300 ease-in-out hover:scale-100"
                                 />
                             </a>
                         </div>
-                        <div className="w-full h-full bg-white">
+                        <div className="w-full h-1/2 bg-white">
                             <a href={repo["items"][2] && `http://localhost:3000/product/${repo["items"][2].id}`}>
                                 <div className="absolute w-max z-10  text-black dark:text-white">
                                     <h3
@@ -61,7 +62,8 @@ export function MainPage({repo}) {
                                     </p>
                                 </div>
                                 <img
-                                    src={repo["items"][2] ?  `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[2]["fields"]["img"]}` : "none"}                                alt="none"
+                                    src={repo["items"][2] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[2]["fields"]["img"]}` : "none"}
+                                    alt="none"
                                     alt="none"
                                     width="540"
                                     height="540"

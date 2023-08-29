@@ -19,6 +19,7 @@ const Profile_options = [
     {text: "Sold Items", href: "/solditems"},
     {text:"Wishlist",href:"/user/wishlist"},
     {text: "Sign out", href: "/signout"},
+
 ];
 
 export function BtnDisplayComponent({onclickhandler}) {
@@ -250,7 +251,7 @@ export default function NavBar() {
                 )}
             </nav>
             <div
-                className={`w-full bg-black text-white flex justify-between p-3 md:hidden`}
+                className={`w-full h-max bg-black text-white flex justify-between p-3 md:hidden`}
             >
                 <div className="flex w-full justify-between">
                     <button

@@ -17,6 +17,7 @@ urlpatterns = [
     path("api/viewItem/<int:item_id>", views.viewItem, name="getItem"),
     path("api/viewPastOrders", views.get_past_orders, name="viewPastOrders"),
     path("api/getallids", views.get_all_ids, name="getids"),
+    path("api/updateitem/<int:item_id>",views.update_item,name="updateitem"),
     path(
         "api/presentinwishlist/<int:item_id>",
         views.check_wishlist_view,

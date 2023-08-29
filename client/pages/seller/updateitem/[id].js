@@ -1,12 +1,21 @@
-import NavBar from "@/components/navBar";
-import Footer from "@/components/footer";
+import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import ModalComponent from "@/components/modal";
-import {Modal} from "flowbite";
-import {useRouter} from "next/router";
-import {data} from "autoprefixer";
+import {Imbue} from "next/dist/compiled/@next/font/dist/google";
+import Image from "next/image";
 
-export default function AddItem() {
+
+export default function Product({data, relatedItems}) {
+    const [csrf_token, setCsrf] = useState("");
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000/api/get_csrf", {
+            credentials: "include",
+        }).then((response) => {
+            setCsrf(response.headers.get("X-CSRFToken"));
+        });
+    });
+
+
     const [categories, setCategories] = useState([]);
     const Router = useRouter();
     useEffect(() => {
@@ -29,14 +38,14 @@ export default function AddItem() {
             }
         } else Router.push("/login");
     }, []);
-
     const [itemDetails, setDetails] = useState({
-        item_name: "",
-        item_description: "",
-        category: "Agricultural",
-        noofdays: "",
+        item_id:data["items"][0].id,
+        item_name: data["items"][0].item_name,
+        item_description: data["items"][0].description,
+        category: data["items"][0].category,
+        noofdays: data["items"][0].max_no_of_days,
     });
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(JSON.parse(data["images"])[0].fields.img);
     const handleChange = (event) => {
         if (event.target.name === "name") {
             setDetails((previousvalues) => {
@@ -73,17 +82,19 @@ export default function AddItem() {
         }
     };
     const handleSubmit = () => {
+        console.log(image)
         const formdata = new FormData();
-        formdata.append("item_name",itemDetails.item_name);
-        formdata.append("item_description",itemDetails.item_description);
-        formdata.append("item_category",itemDetails.category);
-        formdata.append("item_noofdays",itemDetails.noofdays)
+        formdata.append("item_name", itemDetails.item_name);
+        formdata.append("item_description", itemDetails.item_description);
+        formdata.append("item_category", itemDetails.category);
+        formdata.append("item_noofdays", itemDetails.noofdays)
         formdata.append("image", image);
-        fetch("http://127.0.0.1:8000/api/add_item", {
+        formdata.append("item_id",itemDetails.item_id);
+        fetch("http://127.0.0.1:8000/api/updateitem/" + itemDetails.item_id, {
             method: "POST",
             credentials: "include",
-            headers:{
-                'Accept':"application/json",
+            headers: {
+                'Accept': "application/json",
             },
             body: formdata,
         })
@@ -99,7 +110,7 @@ export default function AddItem() {
             <section className="bg-white dark:bg-black text-white">
                 <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
-                        Add a new product
+                        Modify details of {data["items"][0].item_name}
                     </h2>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
@@ -147,6 +158,7 @@ export default function AddItem() {
                                 })}
                             </select>
                         </div>
+
                         <div className="w-full">
                             <label
                                 htmlFor="price"
@@ -187,6 +199,16 @@ export default function AddItem() {
                                 placeholder="Your description here"
                             ></textarea>
                         </div>
+                        <div>
+                            <label
+                                htmlFor="category"
+                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                                Current Image
+                            </label>
+                            <Image loader={() => `http://localhost:8000/media/${JSON.parse(data["images"])[0].fields.img}`}
+                                   src={`http://localhost:8000/media/${JSON.parse(data["images"])[0].fields.img}`} alt={"Image"} width={512} height={512}/>
+                        </div>
                         <div className="sm:col-span-2">
                             <label
                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -211,10 +233,43 @@ export default function AddItem() {
                         type="submit"
                         className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                     >
-                        Add product
+                        Update details
                     </button>
                 </div>
             </section>
         </>
     );
+}
+
+export async function getStaticProps({params}) {
+    const itemdata = await fetch(
+        `http://127.0.0.1:8000/api/items/itemid=${params.id}`
+    );
+    const data = await itemdata.json();
+    const relatedItemsResponse = await fetch(
+        `http://127.0.0.1:8000/api/items/category=${params.category}`
+    );
+    const relatedItems = await relatedItemsResponse.json();
+    return {
+        props: {data, relatedItems},
+    };
+}
+
+export async function getStaticPaths() {
+    const ids = await fetch("http://127.0.0.1:8000/api/getallids");
+    const data = await ids.json();
+    const d = () => {
+        return data.map((id) => {
+            return {
+                params: {
+                    id: id,
+                },
+            };
+        });
+    };
+    const d1 = d();
+    return {
+        paths: d1,
+        fallback: false,
+    };
 }

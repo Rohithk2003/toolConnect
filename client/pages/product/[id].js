@@ -45,7 +45,7 @@ export default function Product({data, relatedItems}) {
         gif: "hidden",
         button: "block",
     });
-    const [modalstate, setstate] = useState("hidden");
+    let [modalstate, setstate] = useState("hidden");
     const [wishlistText, setwishlisttext] = useState("Add to wishlist");
     const [modal_text, setmodaltext] = useState(null);
     const [csrf_token, setCsrf] = useState("");
@@ -112,8 +112,8 @@ export default function Product({data, relatedItems}) {
             });
     }
 
-    function OrderItem(id) {
-        setstate("hidden");
+    async function OrderItem(id) {
+        await setstate("hidden");
         if (alreadyOrdered === "please login in") router.push("/login");
         else {
             if (maxdays > 0) {
@@ -150,14 +150,13 @@ export default function Product({data, relatedItems}) {
                         }
                     }, 3000);
                 } else {
-                    setstate("hidden");
+                    setmodaltext("No of days must be less than maximum days allowed to be rented");
                     setstate("flex justify-center items-center");
-                    setmodaltext("No of days must be less than allowed");
                 }
             } else {
-                setstate("hidden");
-                setstate("flex justify-center items-center");
                 setmodaltext("Invalid no of days");
+                setstate("flex justify-center items-center");
+
             }
         }
     }
