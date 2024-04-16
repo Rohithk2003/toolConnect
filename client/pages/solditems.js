@@ -9,9 +9,12 @@ export default function Solditems() {
 
 	async function loadSoldItems() {
 		if (localStorage.getItem("status") === "true") {
-			const res = await fetch("https://toolconnect.onrender.com/api/solditems", {
-				credentials: "include",
-			});
+			const res = await fetch(
+				"https://toolconnect.onrender.com/api/solditems",
+				{
+					credentials: "include",
+				}
+			);
 			const data = await res.json();
 			setData(data);
 		} else {

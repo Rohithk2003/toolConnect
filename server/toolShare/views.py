@@ -187,22 +187,24 @@ def register_view(request):
         if "@" in data.get("email") and ".com" in data.get("email"):
             if password != confirmation:
                 return JsonResponse({"status": "2"}, status=400)
-                # try:
-            user = User.objects.create_user(
-                username=data.get("username"),
-                first_name=data.get("first_name"),
-                last_name=data.get("last_name"),
-                password=data.get("password"),
-                email=data.get("email"),
-            )
-            user.save()
-            customUser(
-                user=user,
-                address=data.get("address"),
-                type=Trader.objects.filter(type=data.get("type")).first(),
-            ).save()
-            # except IntegrityError as e:
-            #     return JsonResponse({"status": "3"}, status=400)
+            try:
+                user = User.objects.create_user(
+                    username=data.get("username"),
+                    first_name=data.get("first_name"),
+                    last_name=data.get("last_name"),
+                    password=data.get("password"),
+                    email=data.get("email"),
+                )
+                user.save()
+                type_user = data.get("type") or "buyer"
+                print(Trader.objects.filter(type=type_user).first())
+                customUser(
+                    user=user,
+                    address=data.get("address"),
+                    type=Trader.objects.filter(type=type_user.lower()).first(),
+                ).save()
+            except IntegrityError as e:
+                return JsonResponse({"status": "3"}, status=400)
             login(request, user)
             return JsonResponse({"status": "0"}, status=200)
         else:
