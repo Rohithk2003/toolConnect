@@ -145,16 +145,14 @@ SESSION_COOKIE_HTTPONLY = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://tool-connect.vercel.app",
-    "https://tool-connect.vercel.app/",
 ]
 
 CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
 CSRF_TRUSTED_ORIGINS = [
     "https://tool-connect.vercel.app",
-    "https://tool-connect.vercel.app/",
 ]
 CORS_ORIGIN_WHITELIST = [
     "https://tool-connect.vercel.app",
-    "https://tool-connect.vercel.app/",
 ]
+CORS_ALLOW_ALL_ORIGINS=True
 ALLOWED_HOSTS = ["*"]
