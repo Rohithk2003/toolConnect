@@ -12,7 +12,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+from dotenv import load_dotenv
 
+# Determine the file path of your .env file
+dotenv_path = os.path.join(os.getcwd(), ".env")
+
+# Load environment variables from the .env file
+load_dotenv(dotenv_path)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,8 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-e$23ght74@j_hc1anrk%70hk0u$krn5q5rvxk@n23cw_)z2p9m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-MEDIA_URL = '/media/'
+DEBUG = False
+MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 # Application definition
@@ -36,13 +43,13 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django_nextjs",
-    'corsheaders',
+    "corsheaders",
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -50,7 +57,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
 ]
 
 ROOT_URLCONF = "toolSharing.urls"
@@ -78,8 +84,16 @@ WSGI_APPLICATION = "toolSharing.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("PGDATABASE"),
+        "USER": os.environ.get("PGUSER"),
+        "PASSWORD": os.environ.get("PGPASSWORD"),
+        "HOST": os.environ.get("PGHOST"),
+        "PORT": os.environ.get("PGPORT", 5432),
+        "OPTIONS": {
+            "sslmode": "require",
+        },
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     }
 }
 AUTH_USER_MODEL = "toolShare.User"
@@ -130,12 +144,15 @@ CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://172.27.64.1:3000',
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://172.27.64.1:3000",
 ]
 CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:3000', ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:3000",
+]
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
+    "http://localhost:3000",
 ]

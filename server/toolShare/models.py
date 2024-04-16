@@ -38,9 +38,7 @@ class Category(models.Model):
         return f"{self.category}"
 
     def serialize(self):
-        return {
-            "category": self.category
-        }
+        return {"category": self.category}
 
 
 class Item(models.Model):
