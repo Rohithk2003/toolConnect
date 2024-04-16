@@ -146,13 +146,15 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://tool-connect.vercel.app",
     "http://172.27.64.1:3000",
 ]
 CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
 CSRF_TRUSTED_ORIGINS = [
-    "https://toolconnect.onrender.com",
+    "https://tool-connect.vercel.app",
     "http://localhost:3000",
 ]
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://tool-connect.vercel.app",
 ]
