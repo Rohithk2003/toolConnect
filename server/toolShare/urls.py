@@ -17,14 +17,16 @@ urlpatterns = [
     path("api/viewItem/<int:item_id>", views.viewItem, name="getItem"),
     path("api/viewPastOrders", views.get_past_orders, name="viewPastOrders"),
     path("api/getallids", views.get_all_ids, name="getids"),
-    path("api/updateitem/<int:item_id>",views.update_item,name="updateitem"),
+    path("api/updateitem/<int:item_id>", views.update_item, name="updateitem"),
     path(
         "api/presentinwishlist/<int:item_id>",
         views.check_wishlist_view,
         name="checkwishlist",
     ),
     path("api/loggedin", views.check_authentication_status, name="checkauthstatus"),
-    path("api/addtowishlist/<int:item_id>", views.additemtowishlist, name="addtowishlist"),
+    path(
+        "api/addtowishlist/<int:item_id>", views.additemtowishlist, name="addtowishlist"
+    ),
     path("api/delete_item/<int:id>", views.delete_item_view, name="deleteItem"),
     path("api/onsaleitems", views.get_onsale_items),
     path("api/getwishilistitems", views.get_wishlist_items),
@@ -38,7 +40,8 @@ urlpatterns = [
         "api/items/category=<str:category>",
         views.getItems,
         name="list_items",
-    ), path(
+    ),
+    path(
         "api/items/itemid=<int:id>",
         views.getItems,
         name="list_items",

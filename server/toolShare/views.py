@@ -123,7 +123,7 @@ def add_item_view(request):
 
 
 @csrf_exempt
-def update_item(request,item_id):
+def update_item(request, item_id):
     if request.user.is_authenticated:
         if request.method == "POST":
             item_name = request.POST["item_name"]
@@ -150,6 +150,8 @@ def update_item(request,item_id):
                 },
                 status=200,
             )
+
+
 @csrf_protect
 def login_view(request):
     if request.method == "POST":
@@ -185,22 +187,22 @@ def register_view(request):
         if "@" in data.get("email") and ".com" in data.get("email"):
             if password != confirmation:
                 return JsonResponse({"status": "2"}, status=400)
-            try:
-                user = User.objects.create_user(
-                    username=data.get("username"),
-                    first_name=data.get("first_name"),
-                    last_name=data.get("last_name"),
-                    password=data.get("password"),
-                    email=data.get("email"),
-                )
-                user.save()
-                customUser(
-                    user=user,
-                    address=data.get("address"),
-                    type=Trader.objects.filter(type=data.get("type")).first(),
-                ).save()
-            except IntegrityError as e:
-                return JsonResponse({"status": "3"}, status=400)
+                # try:
+            user = User.objects.create_user(
+                username=data.get("username"),
+                first_name=data.get("first_name"),
+                last_name=data.get("last_name"),
+                password=data.get("password"),
+                email=data.get("email"),
+            )
+            user.save()
+            customUser(
+                user=user,
+                address=data.get("address"),
+                type=Trader.objects.filter(type=data.get("type")).first(),
+            ).save()
+            # except IntegrityError as e:
+            #     return JsonResponse({"status": "3"}, status=400)
             login(request, user)
             return JsonResponse({"status": "0"}, status=200)
         else:
@@ -217,11 +219,11 @@ def get_onsale_items(request):
         for item in onsale:
             temp = item.serialize()
             temp["max_no_of_days"] = (
-                    temp["max_no_of_days"] - (temp["createdTime"].date() - todayDate).days
+                temp["max_no_of_days"] - (temp["createdTime"].date() - todayDate).days
             )
-            temp[
-                "date"
-            ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            temp["date"] = (
+                f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            )
 
             items.append(temp)
         return JsonResponse(items, safe=False)
@@ -256,9 +258,9 @@ def getItems(request, id="", category=""):
 
     for item in itemObjects:
         temp = item.serialize()
-        temp[
-            "createdTime"
-        ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+        temp["createdTime"] = (
+            f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+        )
         items.append(temp)
     return JsonResponse(
         {
@@ -300,24 +302,29 @@ def order_item_view(request):
 
 def get_wishlist_items(request):
     if request.user.is_authenticated:
-        items = wishList.objects.filter(
-            user=customUser.objects.filter(user=request.user).first()
-        ).all().order_by("item_id")
+        items = (
+            wishList.objects.filter(
+                user=customUser.objects.filter(user=request.user).first()
+            )
+            .all()
+            .order_by("item_id")
+        )
         wishlist_items = wishList.objects.filter(
             user=customUser.objects.filter(user=request.user).first()
         ).values("item")
         required = []
         for item in items:
             temp = item.item.serialize()
-            temp[
-                "createdTime"
-            ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            temp["createdTime"] = (
+                f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            )
             required.append(temp)
         return JsonResponse(
             {
                 "items": required,
                 "images": serializers.serialize(
-                    "json", Image.objects.filter(item__in=wishlist_items).order_by("item_id")
+                    "json",
+                    Image.objects.filter(item__in=wishlist_items).order_by("item_id"),
                 ),
             },
             safe=False,
@@ -334,9 +341,9 @@ def get_sold_items(request):
 
         for item in itemObjects:
             temp = item.serialize()
-            temp[
-                "createdTime"
-            ] = f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            temp["createdTime"] = (
+                f'{temp["createdTime"].strftime("%Y:%m:%d")} at {temp["createdTime"].strftime("%H:%M:%S %p")}'
+            )
             orders = Order.objects.filter(item=item).first()
             temp["buyer"] = orders.buyer.user.first_name + orders.buyer.user.last_name
             temp["buyer_address"] = orders.buyer.address
@@ -361,11 +368,11 @@ def get_past_orders(request):
         for item in orders:
             temp = item.serialize()
             temp["no_of_days"] = (
-                    temp["no_of_days"] - (temp["date"].date() - todayDate).days
+                temp["no_of_days"] - (temp["date"].date() - todayDate).days
             )
-            temp[
-                "date"
-            ] = f'{temp["date"].strftime("%Y:%m:%d")} at {temp["date"].strftime("%H:%M:%S %p")}'
+            temp["date"] = (
+                f'{temp["date"].strftime("%Y:%m:%d")} at {temp["date"].strftime("%H:%M:%S %p")}'
+            )
 
             items.append(temp)
 
