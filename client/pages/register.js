@@ -70,7 +70,7 @@ const SignUpPage = () => {
     { id: "Seller", value: "Seller" },
   ]);
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get_csrf", {
+    fetch("https://toolconnect.onrender.com/api/get_csrf", {
       credentials: "include",
     }).then((response) => {
       let token = response.headers.get("X-CSRFToken");
@@ -82,7 +82,7 @@ const SignUpPage = () => {
     changeDisplayGif("block");
     setTimeout(() => {
       changeDisplayGif("hidden");
-      fetch("http://127.0.0.1:8000/api/register_user", {
+      fetch("https://toolconnect.onrender.com/api/register_user", {
         method: "POST",
         headers: {
           "X-CSRFToken": csrftoken,

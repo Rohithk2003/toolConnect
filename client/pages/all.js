@@ -6,7 +6,7 @@ export default function DisplayAllItems({ data }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://127.0.0.1:8000/api/items");
+  const res = await fetch("https://toolconnect.onrender.com/api/items");
   const data = await res.json();
   return {
     props: {

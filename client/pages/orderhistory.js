@@ -9,7 +9,7 @@ export default function OrderPage() {
   function loadOrderHistory() {
     console.log(localStorage.getItem("status") === "true");
     if (localStorage.getItem("status") === "true")
-      fetch("http://127.0.0.1:8000/api/viewPastOrders", {
+      fetch("https://toolconnect.onrender.com/api/viewPastOrders", {
         credentials: "include",
       })
         .then((response) => response.json())

@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
 	else sort = null;
 	const category = context.query.category ? context.query.category : null;
 
-	const res = await fetch("http://127.0.0.1:8000/api/items");
+	const res = await fetch("https://toolconnect.onrender.com/api/items");
 	let data = await res.json();
 	if (category) {
 		data["items"] = data["items"].filter((item) => item.category === category);

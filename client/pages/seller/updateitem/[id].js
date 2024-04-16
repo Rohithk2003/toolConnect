@@ -8,7 +8,7 @@ import Image from "next/image";
 export default function Product({data, relatedItems}) {
     const [csrf_token, setCsrf] = useState("");
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/get_csrf", {
+        fetch("https://toolconnect.onrender.com/api/get_csrf", {
             credentials: "include",
         }).then((response) => {
             setCsrf(response.headers.get("X-CSRFToken"));
@@ -28,7 +28,7 @@ export default function Product({data, relatedItems}) {
                 const cats = localStorage.getItem("categories").split(",");
                 setCategories(cats);
             } else {
-                fetch("http://127.0.0.1:8000/api/pre_data")
+                fetch("https://toolconnect.onrender.com/api/pre_data")
                     .then((response) => response.json())
                     .then((result) => {
                         setCategories(result["categories"]);
@@ -90,7 +90,7 @@ export default function Product({data, relatedItems}) {
         formdata.append("item_noofdays", itemDetails.noofdays)
         formdata.append("image", image);
         formdata.append("item_id",itemDetails.item_id);
-        fetch("http://127.0.0.1:8000/api/updateitem/" + itemDetails.item_id, {
+        fetch("https://toolconnect.onrender.com/api/updateitem/" + itemDetails.item_id, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -243,11 +243,11 @@ export default function Product({data, relatedItems}) {
 
 export async function getStaticProps({params}) {
     const itemdata = await fetch(
-        `http://127.0.0.1:8000/api/items/itemid=${params.id}`
+        `https://toolconnect.onrender.com/api/items/itemid=${params.id}`
     );
     const data = await itemdata.json();
     const relatedItemsResponse = await fetch(
-        `http://127.0.0.1:8000/api/items/category=${params.category}`
+        `https://toolconnect.onrender.com/api/items/category=${params.category}`
     );
     const relatedItems = await relatedItemsResponse.json();
     return {
@@ -256,7 +256,7 @@ export async function getStaticProps({params}) {
 }
 
 export async function getStaticPaths() {
-    const ids = await fetch("http://127.0.0.1:8000/api/getallids");
+    const ids = await fetch("https://toolconnect.onrender.com/api/getallids");
     const data = await ids.json();
     const d = () => {
         return data.map((id) => {

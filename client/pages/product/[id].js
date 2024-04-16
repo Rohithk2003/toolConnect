@@ -50,7 +50,7 @@ export default function Product({data, relatedItems}) {
     const [modal_text, setmodaltext] = useState(null);
     const [csrf_token, setCsrf] = useState("");
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/get_csrf", {
+        fetch("https://toolconnect.onrender.com/api/get_csrf", {
             credentials: "include",
         }).then((response) => {
             setCsrf(response.headers.get("X-CSRFToken"));
@@ -58,7 +58,7 @@ export default function Product({data, relatedItems}) {
     });
     useEffect(() => {
         if (csrf_token)
-            fetch("http://127.0.0.1:8000/api/itemAlreadyOrdered", {
+            fetch("https://toolconnect.onrender.com/api/itemAlreadyOrdered", {
                 credentials: "include",
                 method: "post",
                 headers: {
@@ -77,7 +77,7 @@ export default function Product({data, relatedItems}) {
             localStorage.getItem("status") !== "false" &&
             localStorage.getItem("status") !== ""
         )
-            fetch("http://127.0.0.1:8000/api/presentinwishlist/" + data["items"][0].id, {
+            fetch("https://toolconnect.onrender.com/api/presentinwishlist/" + data["items"][0].id, {
                 credentials: "include",
             })
                 .then((response) => response.json())
@@ -91,7 +91,7 @@ export default function Product({data, relatedItems}) {
     async function addtowishlist() {
         setstate("hidden");
 
-        fetch("http://127.0.0.1:8000/api/addtowishlist/" + data["items"][0].id, {
+        fetch("https://toolconnect.onrender.com/api/addtowishlist/" + data["items"][0].id, {
             credentials: "include",
             method: "POST",
         })
@@ -132,7 +132,7 @@ export default function Product({data, relatedItems}) {
                             alreadyOrdered !== "please login in" ||
                             alreadyOrdered !== "not present"
                         ) {
-                            fetch("http://127.0.0.1:8000/api/order", {
+                            fetch("https://toolconnect.onrender.com/api/order", {
                                 credentials: "include",
                                 method: "PUT",
                                 body: JSON.stringify({
@@ -180,7 +180,7 @@ export default function Product({data, relatedItems}) {
                                 width={200}
                                 height={200}
                                 className="lg:w-1/2 w-full lg:h-96 h-auto  object-contain align-center justify-center rounded"
-                                src={`http://127.0.0.1:8000/media/${
+                                src={`https://toolconnect.onrender.com/media/${
                                     JSON.parse(data["images"])[0]["fields"]["img"]
                                 }`}
                             />
@@ -302,7 +302,7 @@ export default function Product({data, relatedItems}) {
                                 <RelatedItemsComponent
                                     item_id={item.id}
                                     item_name={item.item_name}
-                                    item_img={`http://127.0.0.1:8000/media/${
+                                    item_img={`https://toolconnect.onrender.com/media/${
                                         JSON.parse(relatedItems["images"])[index]["fields"]["img"]
                                     }`}
                                     item_description={item.description}
@@ -318,11 +318,11 @@ export default function Product({data, relatedItems}) {
 
 export async function getStaticProps({params}) {
     const itemdata = await fetch(
-        `http://127.0.0.1:8000/api/items/itemid=${params.id}`
+        `https://toolconnect.onrender.com/api/items/itemid=${params.id}`
     );
     const data = await itemdata.json();
     const relatedItemsResponse = await fetch(
-        `http://127.0.0.1:8000/api/items/category=Agricultural`
+        `https://toolconnect.onrender.com/api/items/category=Agricultural`
     );
     const relatedItems = await relatedItemsResponse.json();
     return {
@@ -331,7 +331,7 @@ export async function getStaticProps({params}) {
 }
 
 export async function getStaticPaths() {
-    const ids = await fetch("http://127.0.0.1:8000/api/getallids");
+    const ids = await fetch("https://toolconnect.onrender.com/api/getallids");
     const data = await ids.json();
     const d = () => {
         return data.map((id) => {

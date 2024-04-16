@@ -174,7 +174,7 @@ export default function NavBar() {
     function checkUserLoggedIn() {
         console.log(localStorage.getItem("status"))
         if (localStorage.getItem("status") !== "true" && localStorage.getItem("status") !== "false") {
-            fetch("http://127.0.0.1:8000/api/loggedin", {
+            fetch("https://toolconnect.onrender.com/api/loggedin", {
                 credentials: "include",
             })
                 .then((response) => response.json())

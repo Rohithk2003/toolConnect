@@ -17,7 +17,7 @@ export default function ItemPageLayout({
       setCategories(localStorage.getItem("categories").split(","));
       setFilters(localStorage.getItem("maxdaysfilter").split(","));
     } else {
-      fetch("http://127.0.0.1:8000/api/pre_data")
+      fetch("https://toolconnect.onrender.com/api/pre_data")
         .then((response) => response.json())
         .then((data) => {
           setCategories(data["categories"]);

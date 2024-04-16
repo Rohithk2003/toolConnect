@@ -19,7 +19,7 @@ export default function AddItem() {
                 const cats = localStorage.getItem("categories").split(",");
                 setCategories(cats);
             } else {
-                fetch("http://127.0.0.1:8000/api/pre_data")
+                fetch("https://toolconnect.onrender.com/api/pre_data")
                     .then((response) => response.json())
                     .then((result) => {
                         setCategories(result["categories"]);
@@ -79,7 +79,7 @@ export default function AddItem() {
         formdata.append("item_category",itemDetails.category);
         formdata.append("item_noofdays",itemDetails.noofdays)
         formdata.append("image", image);
-        fetch("http://127.0.0.1:8000/api/add_item", {
+        fetch("https://toolconnect.onrender.com/api/add_item", {
             method: "POST",
             credentials: "include",
             headers:{

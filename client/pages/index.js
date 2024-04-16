@@ -18,7 +18,7 @@ export function MainPage({repo}) {
                                 </p>
                             </div>
                             <img
-                                src={repo["items"][0] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[0]["fields"]["img"]}` : "none"}
+                                src={repo["items"][0] ? `https://toolconnect.onrender.com/media/${JSON.parse(repo["images"])[0]["fields"]["img"]}` : "none"}
                                 alt="none"
                                 className=" bg-transparent relative object-contain  h-full bg-opacity-0 bg-purple-600 w-full z-0 transition duration-300 "
                             />
@@ -39,7 +39,7 @@ export function MainPage({repo}) {
                                     </p>
                                 </div>
                                 <img
-                                    src={repo["items"][0] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[1]["fields"]["img"]}` : "none"}
+                                    src={repo["items"][0] ? `https://toolconnect.onrender.com/media/${JSON.parse(repo["images"])[1]["fields"]["img"]}` : "none"}
                                     alt="none"
                                     width="540"
                                     height="540"
@@ -62,7 +62,7 @@ export function MainPage({repo}) {
                                     </p>
                                 </div>
                                 <img
-                                    src={repo["items"][2] ? `http://127.0.0.1:8000/media/${JSON.parse(repo["images"])[2]["fields"]["img"]}` : "none"}
+                                    src={repo["items"][2] ? `https://toolconnect.onrender.com/media/${JSON.parse(repo["images"])[2]["fields"]["img"]}` : "none"}
                                     alt="none"
                                     alt="none"
                                     width="540"
@@ -86,7 +86,7 @@ export default function mainPage({
 }
 
 export async function getStaticProps() {
-    const res = await fetch("http://127.0.0.1:8000/api/main_items");
+    const res = await fetch("https://toolconnect.onrender.com/api/main_items");
     const repo = await res.json();
     return {
         props: {

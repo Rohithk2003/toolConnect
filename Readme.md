@@ -78,7 +78,7 @@ py manage.py migrate
 py manage.py createsuperuser
 ```
 
-6. Launch the Django server. If set up correctly, server will launch on http://127.0.0.1:8000/.
+6. Launch the Django server. If set up correctly, server will launch on https://toolconnect.onrender.com/.
 
 ```
 py manange.py runserver

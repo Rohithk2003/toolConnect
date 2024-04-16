@@ -150,7 +150,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
+    "https://toolconnect.onrender.com",
     "http://localhost:3000",
 ]
 CORS_ORIGIN_WHITELIST = [

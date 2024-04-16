@@ -7,7 +7,7 @@ export default function Wishlist() {
     const router = useRouter();
     const loadProducts = async () => {
 
-        const res = await fetch("http://127.0.0.1:8000/api/getwishilistitems",{
+        const res = await fetch("https://toolconnect.onrender.com/api/getwishilistitems",{
             credentials:"include",
         })
         const data = await res.json();

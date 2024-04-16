@@ -14,7 +14,7 @@ export default function DeleteItemPage() {
 
     function getData() {
         if (localStorage.getItem("status") === "true") {
-            fetch("http://127.0.0.1:8000/api/onsaleitems", {
+            fetch("https://toolconnect.onrender.com/api/onsaleitems", {
                 credentials: "include",
             })
                 .then((response) => response.json())
@@ -73,7 +73,7 @@ export default function DeleteItemPage() {
                                                         type="button"
                                                         onClick={() => {
                                                             fetch(
-                                                                "http://127.0.0.1:8000/api/delete_item/" +
+                                                                "https://toolconnect.onrender.com/api/delete_item/" +
                                                                 item.id
                                                             )
                                                                 .then((r) => {

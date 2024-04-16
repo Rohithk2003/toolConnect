@@ -8,7 +8,7 @@ export default function Signout() {
     localStorage.setItem("username", "");
   });
   const router = useRouter();
-  fetch("http://127.0.0.1:8000/api/logout", {
+  fetch("https://toolconnect.onrender.com/api/logout", {
     credentials: "include",
   }).then((response) => {
     console.log("helll");
