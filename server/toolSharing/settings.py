@@ -155,4 +155,5 @@ CORS_ORIGIN_WHITELIST = [
     "https://tool-connect.vercel.app",
 ]
 CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_CREDENTIALS=True
 ALLOWED_HOSTS = ["*"]
