@@ -158,3 +158,4 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "https://tool-connect.vercel.app",
 ]
+ALLOWED_HOSTS = ["127.0.0.1", "tool-connect.vercel.app"]
