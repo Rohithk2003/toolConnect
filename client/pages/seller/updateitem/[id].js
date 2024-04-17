@@ -43,7 +43,7 @@ export default function Product({ data, relatedItems }) {
 		category: data["items"][0].category,
 		noofdays: data["items"][0].max_no_of_days,
 	});
-	const [image, setImage] = useState(JSON.parse(data["images"])[0].fields.img);
+	const [image, setImage] = useState(data["items"][0].image_url);
 	const handleChange = (event) => {
 		if (event.target.name === "name") {
 			setDetails((previousvalues) => {
@@ -75,7 +75,7 @@ export default function Product({ data, relatedItems }) {
 				};
 			});
 		} else if (event.target.name === "img") {
-			setImage(event.target.files[0]);
+			setImage(event.target.value);
 		}
 	};
 	const handleSubmit = () => {
@@ -85,7 +85,7 @@ export default function Product({ data, relatedItems }) {
 		formdata.append("item_description", itemDetails.item_description);
 		formdata.append("item_category", itemDetails.category);
 		formdata.append("item_noofdays", itemDetails.noofdays);
-		formdata.append("image", image);
+		formdata.append("image_url", image);
 		formdata.append("item_id", itemDetails.item_id);
 		fetch(
 			"https://toolconnect.onrender.com/api/updateitem/" + itemDetails.item_id,

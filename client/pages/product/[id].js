@@ -13,7 +13,7 @@ export function RelatedItemsComponent({
 			key={item_id}
 			className="mt-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:border-gray-700"
 		>
-			<a href={`http://localhost:3000/product/${item_id}`}>
+			<a href={`https://toolconnect.onrender.com/product/${item_id}`}>
 				<img
 					className="rounded-t-lg object-contain w-full h-52 "
 					src={`${item_img}`}
@@ -21,7 +21,7 @@ export function RelatedItemsComponent({
 				/>
 			</a>
 			<div className="p-5 ">
-				<a href={`http://localhost:3000/product/${item_id}`}>
+				<a href={`https://toolconnect.onrender.com/product/${item_id}`}>
 					<h5 className="mb-2 text-2xl font-bold  text-gray-900 dark:text-white">
 						{item_name}
 					</h5>
@@ -188,9 +188,7 @@ export default function Product({ data, relatedItems }) {
 								width={200}
 								height={200}
 								className="lg:w-1/2 w-full lg:h-96 h-auto  object-contain align-center justify-center rounded"
-								src={`https://toolconnect.onrender.com/media/${
-									JSON.parse(data["images"])[0]["fields"]["img"]
-								}`}
+								src={data["items"][0].image_url}
 							/>
 						</div>
 						<div className="flex w-full p-6 justify-start align-middle flex-wrap">
@@ -308,9 +306,7 @@ export default function Product({ data, relatedItems }) {
 								<RelatedItemsComponent
 									item_id={item.id}
 									item_name={item.item_name}
-									item_img={`https://toolconnect.onrender.com/media/${
-										JSON.parse(relatedItems["images"])[index]["fields"]["img"]
-									}`}
+									item_img={item.image_url}
 									item_description={item.description}
 								/>
 							) : null;

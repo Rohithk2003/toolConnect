@@ -1,5 +1,4 @@
 export function MainPage({ repo }) {
-	console.log(JSON.parse(repo["images"]));
 	return (
 		<>
 			<div className="w-full z-0 relative  h-screen">
@@ -8,7 +7,7 @@ export function MainPage({ repo }) {
 						<a
 							href={
 								repo["items"][0] &&
-								`http://localhost:3000/product/${repo["items"][0].id}`
+								`https://toolconnect.onrender.com/product/${repo["items"][0].id}`
 							}
 						>
 							<div className=" absolute left-0 z-10 top-[-2px] w-max text-black dark:text-white">
@@ -26,11 +25,7 @@ export function MainPage({ repo }) {
 							</div>
 							<img
 								src={
-									repo["items"][0]
-										? `https://toolconnect.onrender.com/media/${
-												JSON.parse(repo["images"])[0]["fields"]["img"]
-										  }`
-										: "none"
+									repo["items"][0] ? repo["items"][0].image_url : "None"
 								}
 								alt="none"
 								className=" bg-transparent relative object-contain  h-full bg-opacity-0 bg-purple-600 w-full z-0 transition duration-300 "
@@ -42,7 +37,7 @@ export function MainPage({ repo }) {
 							<a
 								href={
 									repo["items"][1] &&
-									`http://localhost:3000/product/${repo["items"][1].id}`
+									`https://toolconnect.onrender.com/product/${repo["items"][1].id}`
 								}
 							>
 								<div className="absolute w-max z-10 text-black dark:text-white">
@@ -60,11 +55,8 @@ export function MainPage({ repo }) {
 								</div>
 								<img
 									src={
-										repo["items"][0]
-											? `https://toolconnect.onrender.com/media/${
-													JSON.parse(repo["images"])[1]["fields"]["img"]
-											  }`
-											: "none"
+										repo["items"][1] &&
+									`https://toolconnect.onrender.com/product/${repo["items"][1].image_url}`
 									}
 									alt="none"
 									width="540"
@@ -78,7 +70,7 @@ export function MainPage({ repo }) {
 							<a
 								href={
 									repo["items"][2] &&
-									`http://localhost:3000/product/${repo["items"][2].id}`
+									`https://toolconnect.onrender.com/product/${repo["items"][2].id}`
 								}
 							>
 								<div className="absolute w-max z-10  text-black dark:text-white">
@@ -96,13 +88,9 @@ export function MainPage({ repo }) {
 								</div>
 								<img
 									src={
-										repo["items"][2]
-											? `https://toolconnect.onrender.com/media/${
-													JSON.parse(repo["images"])[2]["fields"]["img"]
-											  }`
-											: "none"
+										repo["items"][1] &&
+									`https://toolconnect.onrender.com/product/${repo["items"][2].image_url}`
 									}
-									alt="none"
 									alt="none"
 									width="540"
 									height="540"

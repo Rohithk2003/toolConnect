@@ -54,6 +54,7 @@ class Item(models.Model):
     )
     max_no_of_days = models.IntegerField()
     createdTime = models.DateTimeField(auto_now_add=True)
+    image_url = models.CharField(max_length=500, default="")
 
     def __str__(self):
         return f"{self.item_name} : {self.description}:{self.item_id}"
@@ -69,12 +70,13 @@ class Item(models.Model):
             "address": self.seller.address,
             "max_no_of_days": self.max_no_of_days,
             "createdTime": self.createdTime,
+            "image": self.image_url,
         }
 
 
-class Image(models.Model):
-    img = models.ImageField(upload_to="images/")
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+# class Image(models.Model):
+#     img = models.ImageField(upload_to="images/")
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
 class Order(models.Model):

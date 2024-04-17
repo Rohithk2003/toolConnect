@@ -29,7 +29,7 @@ export default function Items({products, searchQuery, searchResultsCount}) {
                                 >
                                     <a
                                         className="h-full w-full"
-                                        href={`http://localhost:3000/product/${item.id}`}
+                                        href={`https://toolconnect.onrender.com/product/${item.id}`}
                                     >
                                         <div
                                             className=" flex  bg-red h-full w-full items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-900 relative">
@@ -41,7 +41,7 @@ export default function Items({products, searchQuery, searchResultsCount}) {
                                                 decoding="async"
                                                 data-nimg="1"
                                                 className="relative  h-full w-full object-contain transition duration-300 ease-in-out hover:scale-105"
-                                                src={`http://localhost:8000/media/${images[index] ? images[index]["fields"]["img"] : ''}`}
+                                                src={`http://localhost:3000/product/${item.image_url}`}
                                             />
                                             <div className="absolute left-0 top-0 w-3/4 text-black dark:text-white">
                                                 <h3

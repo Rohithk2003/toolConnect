@@ -68,7 +68,7 @@ export default function AddItem() {
 				};
 			});
 		} else if (event.target.name === "img") {
-			setImage(event.target.files[0]);
+			setImage(event.target.value);
 		}
 	};
 	const handleSubmit = () => {
@@ -77,7 +77,7 @@ export default function AddItem() {
 		formdata.append("item_description", itemDetails.item_description);
 		formdata.append("item_category", itemDetails.category);
 		formdata.append("item_noofdays", itemDetails.noofdays);
-		formdata.append("image", image);
+		formdata.append("image_url", image);
 		fetch("https://toolconnect.onrender.com/api/add_item", {
 			method: "POST",
 			credentials: "include",
@@ -203,8 +203,8 @@ export default function AddItem() {
 								}}
 								name="img"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-								id="file_input"
-								type="file"
+								id="text"
+								type="text"
 							/>
 						</div>
 					</div>

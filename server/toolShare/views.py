@@ -37,14 +37,6 @@ def get_main_page_items(request):
     return JsonResponse(
         {
             "items": items,
-            "images": serializers.serialize(
-                "json",
-                Image.objects.filter(
-                    item__in=Item.objects.filter(availability=True).order_by(
-                        "-max_no_of_days"
-                    )[:3]
-                ).order_by("-item__max_no_of_days")[:3],
-            ),
         },
         safe=False,
     )
@@ -111,8 +103,9 @@ def add_item_view(request):
                 seller=customUser.objects.filter(user=request.user).first(),
                 max_no_of_days=max_no_of_days,
                 description=description,
+                image_url=request.POST["image_url"],
             )
-            Image.objects.create(img=request.FILES.get("image"), item=item)
+            # Image.objects.create(img=request.FILES.get("image"), item=item)
             return JsonResponse(
                 {
                     "message": "Item has been added",
@@ -133,15 +126,13 @@ def update_item(request, item_id):
             max_no_of_days = request.POST["item_noofdays"]
             description = request.POST["item_description"]
             citem = Item.objects.filter(item_id=item_id).first()
-            image = Image.objects.filter(item=citem).first()
-            image_data = request.FILES.get("image")
-            if image_data:
-                image.img = image_data
+            # image = Image.objects.filter(item=citem).first()
+            image_data = request.POST["image_url"]
             citem.item_name = item_name
             citem.category = category
             citem.max_no_of_days = max_no_of_days
             citem.description = description
-            image.save()
+            citem.image_url = image_data
             citem.save()
             return JsonResponse(
                 {
@@ -267,9 +258,6 @@ def getItems(request, id="", category=""):
     return JsonResponse(
         {
             "items": items,
-            "images": serializers.serialize(
-                "json", Image.objects.filter(item__in=itemObjects)
-            ),
         }
     )
 
@@ -324,10 +312,6 @@ def get_wishlist_items(request):
         return JsonResponse(
             {
                 "items": required,
-                "images": serializers.serialize(
-                    "json",
-                    Image.objects.filter(item__in=wishlist_items).order_by("item_id"),
-                ),
             },
             safe=False,
         )
@@ -408,10 +392,6 @@ def viewItem(request, item_id):
     return JsonResponse(
         {
             "item": Item.objects.filter(item_id=item_id).first().serialize(),
-            "images": serializers.serialize(
-                "json",
-                Image.objects.filter(item=Item.objects.filter(item_id=item_id).first()),
-            ),
         },
         status=200,
     )
