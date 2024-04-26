@@ -4,6 +4,7 @@ import Footer from "@/components/footer";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Router from "next/router";
+import { getServerUrl } from "@/configs";
 
 const LoginPage = ({ data }) => {
 	const [csrfToken, setToken] = useState(null);
@@ -20,7 +21,7 @@ const LoginPage = ({ data }) => {
 				changeDisplayGif("block");
 				setTimeout(() => {
 					changeDisplayGif("hidden");
-					fetch("https://toolconnect.onrender.com/api/login", {
+					fetch(`${getServerUrl()}/api/login`, {
 						method: "POST",
 						headers: {
 							"X-CSRFToken": csrfToken,
@@ -59,7 +60,7 @@ const LoginPage = ({ data }) => {
 	}
 
 	useEffect(() => {
-		fetch("https://toolconnect.onrender.com/api/get_csrf", {
+		fetch(`${getServerUrl()}/api/get_csrf`, {
 			credentials: "include",
 		}).then((response) => {
 			let token = response.headers.get("X-CSRFToken");

@@ -1,4 +1,6 @@
+import { getServerUrl } from "@/configs";
 export function MainPage({ repo }) {
+	console.log(repo);
 	return (
 		<>
 			<div className="w-full z-0 relative  h-screen">
@@ -24,9 +26,7 @@ export function MainPage({ repo }) {
 								</p>
 							</div>
 							<img
-								src={
-									repo["items"][0] ? repo["items"][0].image_url : "None"
-								}
+								src={repo["items"][0] ? repo["items"][0].image_url : "None"}
 								alt="none"
 								className=" bg-transparent relative object-contain  h-full bg-opacity-0 bg-purple-600 w-full z-0 transition duration-300 "
 							/>
@@ -56,7 +56,7 @@ export function MainPage({ repo }) {
 								<img
 									src={
 										repo["items"][1] &&
-									`https://toolconnect.onrender.com/product/${repo["items"][1].image_url}`
+										`https://toolconnect.onrender.com/product/${repo["items"][1].image_url}`
 									}
 									alt="none"
 									width="540"
@@ -89,7 +89,7 @@ export function MainPage({ repo }) {
 								<img
 									src={
 										repo["items"][1] &&
-									`https://toolconnect.onrender.com/product/${repo["items"][2].image_url}`
+										`https://toolconnect.onrender.com/product/${repo["items"][2].image_url}`
 									}
 									alt="none"
 									width="540"
@@ -111,7 +111,7 @@ export default function mainPage({ repo }) {
 }
 
 export async function getStaticProps() {
-	const res = await fetch("https://toolconnect.onrender.com/api/main_items");
+	const res = await fetch(`${getServerUrl()}/api/main_items`);
 	const repo = await res.json();
 	return {
 		props: {

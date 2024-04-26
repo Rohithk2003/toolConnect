@@ -68,13 +68,13 @@ class Item(models.Model):
             "id": self.item_id,
             "item_name": self.item_name,
             "description": self.description,
-            "seller": self.seller.user.first_name + self.seller.user.last_name,
+            "seller": (self.seller.user.first_name + self.seller.user.last_name) or 'No Seller Data',
             "seller_username": self.seller.user.username,
             "category": self.category.category,
             "address": self.seller.address,
             "max_no_of_days": self.max_no_of_days,
             "createdTime": self.createdTime,
-            "image": self.image_url,
+            "image_url": self.image_url,
         }
 
 
