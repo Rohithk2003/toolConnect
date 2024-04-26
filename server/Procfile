@@ -1,1 +1,2 @@
-web: gunicorn 'toolSharing.wsgi'
+release: ./heroku-release.sh
+web: ./heroku-web.sh
