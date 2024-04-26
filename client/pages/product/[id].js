@@ -8,12 +8,17 @@ export function RelatedItemsComponent({
 	item_img,
 	item_description,
 }) {
+	const [baseUrl,setBaseUrl] = useState("");
+	useEffect(() => {
+		console.log(window.location.origin)
+		setBaseUrl(window.location.origin);
+	},[]);
 	return (
 		<div
 			key={item_id}
 			className="mt-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:border-gray-700"
 		>
-			<a href={`https://toolconnect.onrender.com/product/${item_id}`}>
+			<a href={`${baseUrl}/product/${item_id}`}>
 				<img
 					className="rounded-t-lg object-contain w-full h-52 "
 					src={`${item_img}`}
@@ -21,7 +26,7 @@ export function RelatedItemsComponent({
 				/>
 			</a>
 			<div className="p-5 ">
-				<a href={`https://toolconnect.onrender.com/product/${item_id}`}>
+				<a href={`${baseUrl}/product/${item_id}`}>
 					<h5 className="mb-2 text-2xl font-bold  text-gray-900 dark:text-white">
 						{item_name}
 					</h5>

@@ -9,7 +9,7 @@ export function MainPage({ repo }) {
 						<a
 							href={
 								repo["items"][0] &&
-								`https://toolconnect.onrender.com/product/${repo["items"][0].id}`
+								`product/${repo["items"][0].id}`
 							}
 						>
 							<div className=" absolute left-0 z-10 top-[-2px] w-max text-black dark:text-white">
@@ -37,7 +37,7 @@ export function MainPage({ repo }) {
 							<a
 								href={
 									repo["items"][1] &&
-									`https://toolconnect.onrender.com/product/${repo["items"][1].id}`
+									`product/${repo["items"][1].id}`
 								}
 							>
 								<div className="absolute w-max z-10 text-black dark:text-white">
@@ -54,10 +54,7 @@ export function MainPage({ repo }) {
 									</p>
 								</div>
 								<img
-									src={
-										repo["items"][1] &&
-										`https://toolconnect.onrender.com/product/${repo["items"][1].image_url}`
-									}
+									src={repo["items"][1] ? repo["items"][1].image_url : "None"}
 									alt="none"
 									width="540"
 									height="540"
@@ -70,7 +67,7 @@ export function MainPage({ repo }) {
 							<a
 								href={
 									repo["items"][2] &&
-									`https://toolconnect.onrender.com/product/${repo["items"][2].id}`
+									`product/${repo["items"][2].id}`
 								}
 							>
 								<div className="absolute w-max z-10  text-black dark:text-white">
@@ -87,10 +84,7 @@ export function MainPage({ repo }) {
 									</p>
 								</div>
 								<img
-									src={
-										repo["items"][1] &&
-										`https://toolconnect.onrender.com/product/${repo["items"][2].image_url}`
-									}
+									src={repo["items"][2] ? repo["items"][2].image_url : "None"}
 									alt="none"
 									width="540"
 									height="540"
