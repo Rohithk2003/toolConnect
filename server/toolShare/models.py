@@ -50,7 +50,11 @@ class Item(models.Model):
         to=Category, on_delete=models.CASCADE, related_name="itemCategory"
     )
     seller = models.ForeignKey(
-        to=customUser, on_delete=models.CASCADE, related_name="seller"
+        to=customUser,
+        on_delete=models.CASCADE,
+        related_name="seller",
+        default=None,
+        null=True,
     )
     max_no_of_days = models.IntegerField()
     createdTime = models.DateTimeField(auto_now_add=True)
