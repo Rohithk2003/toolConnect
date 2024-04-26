@@ -42,7 +42,7 @@ export default function Items({ products, searchQuery, searchResultsCount }) {
 												decoding="async"
 												data-nimg="1"
 												className="relative  h-full w-full object-contain transition duration-300 ease-in-out hover:scale-105"
-												src={`http://localhost:3000/product/${item.image_url}`}
+												src={`${item.image_url}`}
 											/>
 											<div className="absolute left-0 top-0 w-3/4 text-black dark:text-white">
 												<h3

@@ -30,9 +30,6 @@ export async function getServerSideProps(context) {
 		for (let i in data["items"]) {
 			id_array.push(data["items"][i].id);
 		}
-		data["images"] = JSON.parse(data["images"]).filter((image) =>
-			id_array.includes(image["fields"]["item"])
-		);
 	}
 	if (query) {
 		data["items"] = data["items"].map((item) => {
@@ -51,15 +48,6 @@ export async function getServerSideProps(context) {
 		for (let i in data["items"]) {
 			if (data["items"][i]) id_array.push(data["items"][i].id);
 		}
-		if (typeof data["images"] === "string")
-			data["images"] = JSON.parse(data["images"]).filter((image) =>
-				id_array.includes(image["fields"]["item"])
-			);
-		else {
-			data["images"] = data["images"].filter((image) =>
-				id_array.includes(image["fields"]["item"])
-			);
-		}
 	}
 	if (sort) {
 		data["items"] = data["items"].map((item) => {
@@ -77,15 +65,6 @@ export async function getServerSideProps(context) {
 		let id_array = [];
 		for (let i in data["items"]) {
 			if (data["items"][i]) id_array.push(data["items"][i].id);
-		}
-		if (typeof data["images"] === "string")
-			data["images"] = JSON.parse(data["images"]).filter((image) =>
-				id_array.includes(image["fields"]["item"])
-			);
-		else {
-			data["images"] = data["images"].filter((image) =>
-				id_array.includes(image["fields"]["item"])
-			);
 		}
 	}
 

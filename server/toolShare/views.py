@@ -125,6 +125,7 @@ def update_item(request, item_id):
             ).first()
             max_no_of_days = request.POST["item_noofdays"]
             description = request.POST["item_description"]
+            image_url = request.POST["image_url"]
             citem = Item.objects.filter(item_id=item_id).first()
             # image = Image.objects.filter(item=citem).first()
             image_data = request.POST["image_url"]

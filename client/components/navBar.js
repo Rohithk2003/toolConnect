@@ -100,10 +100,10 @@ export function ProfileComponent({ username, usertype }) {
 					>
 						{Profile_options.map((option, index) => {
 							{
-								return (usertype !== "Seller" && option.text === "Add item") ||
-									(usertype !== "Seller" &&
+								return (usertype !== "seller" && option.text === "Add item") ||
+									(usertype !== "seller" &&
 										option.text === "Remove on sale item") ||
-									(usertype !== "Seller" &&
+									(usertype !== "seller" &&
 										option.text === "Sold Items") ? null : (
 									<ProfileSettingsComponent
 										key={index}
@@ -136,8 +136,8 @@ function UserButton({ text, href, extraStylingProps, onclickhandler }) {
 export default function NavBar() {
 	const [check, setcheck] = useState(true);
 	const [searchValue, setSearchValue] = useState("");
-	const [username, setUsername] = useState(null);
-	const [typeofuser, setType] = useState(null);
+	const [username, setUsername] = useState("");
+	const [typeofuser, setType] = useState("");
 	const router = useRouter();
 	const [sidebarvisible, setvisibilty] = useState(false);
 	useEffect(() => {
@@ -171,29 +171,20 @@ export default function NavBar() {
 	}, [sidebarvisible]);
 
 	function checkUserLoggedIn() {
-		console.log(localStorage.getItem("status"));
-		if (
-			localStorage.getItem("status") !== "true" &&
-			localStorage.getItem("status") !== "false"
-		) {
-			fetch("https://toolconnect.onrender.com/api/loggedin", {
-				credentials: "include",
-			})
-				.then((response) => response.json())
-				.then((r) => {
-					setcheck(r["status"]);
-					if (check) {
-						setUsername(r["username"]);
-						setType(r["usertype"]);
-					}
-				});
-		} else {
-			setUsername(localStorage.getItem("username"));
-			setType(localStorage.getItem("usertype"));
-		}
+		fetch("https://toolconnect.onrender.com/api/loggedin", {
+			credentials: "include",
+		})
+			.then((response) => response.json())
+			.then((r) => {
+				setcheck(r["status"]);
+				if (r["status"]) {
+					setUsername(r["username"]);
+					setType(r["usertype"]);
+				}
+			});
 	}
 
-	useEffect(checkUserLoggedIn, []);
+	useEffect(checkUserLoggedIn, [username, check]);
 	return (
 		<>
 			<LoadPre />
@@ -206,8 +197,7 @@ export default function NavBar() {
 					</Link>
 					<ul className="grid grid-rows-1 grid-cols-4 w-72">
 						{Menu_list.map((menu, index) => {
-							return menu.text === "Add Item" &&
-								typeofuser !== "Seller" ? null : (
+							return (
 								<div
 									key={menu.text}
 									className="text-white align-baseline text-center"
@@ -376,10 +366,7 @@ export default function NavBar() {
 							{check ? (
 								Profile_options.map((option, index) => {
 									{
-										return (typeofuser !== "Seller" &&
-											option.text === "Add item") ||
-											(typeofuser !== "Seller" &&
-												option.text === "Delete item") ? null : (
+										return (
 											<div
 												key={option.text}
 												className=" pl-1"

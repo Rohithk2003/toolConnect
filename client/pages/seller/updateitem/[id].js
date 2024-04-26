@@ -17,6 +17,7 @@ export default function Product({ data, relatedItems }) {
 	const [categories, setCategories] = useState([]);
 	const Router = useRouter();
 	useEffect(() => {
+		console.log(itemDetails);
 		if (localStorage.getItem("status") === "true") {
 			if (
 				localStorage.getItem("categories") !== null &&
@@ -42,6 +43,7 @@ export default function Product({ data, relatedItems }) {
 		item_description: data["items"][0].description,
 		category: data["items"][0].category,
 		noofdays: data["items"][0].max_no_of_days,
+		image_url: data["items"][0].image_url,
 	});
 	const [image, setImage] = useState(data["items"][0].image_url);
 	const handleChange = (event) => {
@@ -202,33 +204,30 @@ export default function Product({ data, relatedItems }) {
 								placeholder="Your description here"
 							></textarea>
 						</div>
-						<div>
-							<label
+						<div className="w-full h-max flex justify-center items-center flex-col">
+							<p
 								htmlFor="category"
-								className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								className="block mb-2 text-sm text-start w-full font-medium text-gray-900 dark:text-white"
 							>
 								Current Image
-							</label>
-							<Image
-								loader={() =>
-									`http://localhost:8000/media/${
-										JSON.parse(data["images"])[0].fields.img
-									}`
-								}
-								src={`http://localhost:8000/media/${
-									JSON.parse(data["images"])[0].fields.img
-								}`}
-								alt={"Image"}
-								width={512}
-								height={512}
-							/>
+							</p>
+							<div className="flex justify-center items-center w-full">
+								<div>
+									<Image
+										src={itemDetails.image_url}
+										alt={"Image"}
+										width={512}
+										height={512}
+									/>
+								</div>
+							</div>
 						</div>
 						<div className="sm:col-span-2">
 							<label
 								className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								htmlFor="file_input"
+								htmlFor="text"
 							>
-								Upload file
+								Upload file Url
 							</label>
 							<input
 								value={itemDetails.img}
@@ -238,7 +237,7 @@ export default function Product({ data, relatedItems }) {
 								name="img"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								id="file_input"
-								type="file"
+								type="text"
 							/>
 						</div>
 					</div>
