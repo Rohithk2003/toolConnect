@@ -31,7 +31,7 @@ export default function Items({ products, searchQuery, searchResultsCount }) {
 								>
 									<a
 										className="h-full w-full"
-										href={`https://toolconnect.vercel.app/product/${item.id}`}
+										href={`https://tool-connect.vercel.app/product/${item.id}`}
 									>
 										<div className=" flex  bg-red h-full w-full items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-900 relative">
 											<img
